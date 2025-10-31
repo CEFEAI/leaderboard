@@ -735,30 +735,137 @@
         <!-- Questions / Answers Tab -->
         <div id="questions" class="tab-content">
             <div class="about-section">
-                <h2>Question / Answer Management</h2>
-                <p>Comprehensive tools for creating, validating, and browsing the benchmark question suite sourced from diverse faith communities.</p>
+                <h2>Question Builder & Validator</h2>
+                <p>Create and validate benchmark questions following the CEFE schema. Questions are validated in real-time against the JSON schema.</p>
             </div>
 
-            <div class="criteria-grid">
-                <div class="criterion-card">
-                    <h3>📝 Q&A Builder</h3>
-                    <p>Create new questions with multiple-choice options or open-response formats. Define rubrics, difficulty levels, and categorize questions by faith community and topic.</p>
-                </div>
-                <div class="criterion-card">
-                    <h3>✅ Q&A Validator</h3>
-                    <p>Review and validate submitted questions to ensure quality, accuracy, and alignment with community values. Verify rubric criteria and ground-truth answers.</p>
-                </div>
-                <div class="criterion-card">
-                    <h3>🔍 Q&A Browser</h3>
-                    <p>Browse, search, and filter the complete question database. View questions by faith community, category, difficulty, and rubric type.</p>
-                </div>
-            </div>
-
+            <!-- Question Builder Form -->
             <div class="about-section">
-                <h2>Question Categories</h2>
-                <p><strong>Historical & Doctrinal:</strong> Questions about doctrine, history, policy, scripture, culture, customs, controversies, and misconceptions.</p>
-                <p><strong>Moral Compass:</strong> Scenarios addressing moral dilemmas, ethical decision-making, interpersonal conflicts, and faith-based values in everyday situations.</p>
-                <p style="margin-top: 16px;"><strong>Note:</strong> The precise questions and rubrics are confidential to maintain benchmark integrity. Only validated community contributors have access to the question management system.</p>
+                <h2>Build a Question</h2>
+                
+                <form id="questionForm" style="margin-top: 20px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <!-- Basic Information -->
+                        <div>
+                            <label class="filter-label">Question ID *</label>
+                            <input type="text" id="questionId" placeholder="e.g., mormon-coffee-001" required style="margin-bottom: 15px;">
+                            
+                            <label class="filter-label">Faith Community *</label>
+                            <input type="text" id="faithCommunity" placeholder="e.g., The Church of Jesus Christ of Latter-day Saints" required style="margin-bottom: 15px;">
+                            
+                            <label class="filter-label">Category *</label>
+                            <select id="category" required style="margin-bottom: 15px;">
+                                <option value="">Select category...</option>
+                                <option value="Historical & Doctrinal">Historical & Doctrinal</option>
+                                <option value="Moral Compass">Moral Compass</option>
+                            </select>
+                            
+                            <label class="filter-label">Subcategory</label>
+                            <input type="text" id="subcategory" placeholder="e.g., Dietary laws (comma-separated for multiple)" style="margin-bottom: 15px;">
+                        </div>
+
+                        <!-- Question Details -->
+                        <div>
+                            <label class="filter-label">Difficulty *</label>
+                            <select id="difficulty" required style="margin-bottom: 15px;">
+                                <option value="">Select difficulty...</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                            
+                            <label class="filter-label">Prompt Template</label>
+                            <input type="text" id="promptTemplate" placeholder="e.g., one-shot-default" style="margin-bottom: 15px;">
+                            
+                            <label class="filter-label">Question Text *</label>
+                            <textarea id="questionText" rows="4" placeholder="Enter the question text here..." required style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; font-family: inherit; resize: vertical; margin-bottom: 15px;"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Rubrics Section -->
+                    <div style="margin-top: 20px;">
+                        <h3 style="font-size: 18px; margin-bottom: 15px; color: #111827;">Rubrics *</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            <div>
+                                <label class="filter-label">Common Rubric Path *</label>
+                                <input type="text" id="rubricCommon" placeholder="e.g., rubrics/common/faith-faithful.md" required>
+                            </div>
+                            <div>
+                                <label class="filter-label">Specific Rubric Path *</label>
+                                <input type="text" id="rubricSpecific" placeholder="e.g., rubrics/mormon/dietary.md" required>
+                            </div>
+                            <div>
+                                <label class="filter-label">Grading Rubric Path *</label>
+                                <input type="text" id="rubricGrading" placeholder="e.g., rubrics/grading/standard.md" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sources Section -->
+                    <div style="margin-top: 20px;">
+                        <label class="filter-label">Authoritative Sources (one per line)</label>
+                        <textarea id="sources" rows="3" placeholder="https://www.churchofjesuschrist.org/study/manual/gospel-topics/word-of-wisdom" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; font-family: inherit; resize: vertical;"></textarea>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="margin-top: 25px; display: flex; gap: 15px; flex-wrap: wrap;">
+                        <button type="button" onclick="validateQuestion()" style="padding: 12px 24px; background: #667eea; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                            ✓ Validate Question
+                        </button>
+                        <button type="button" onclick="generateJSON()" style="padding: 12px 24px; background: #10b981; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                            📄 Generate JSON
+                        </button>
+                        <button type="button" onclick="clearForm()" style="padding: 12px 24px; background: #6b7280; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                            🗑️ Clear Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Validation Results -->
+            <div id="validationResults" style="display: none; margin-top: 25px;"></div>
+
+            <!-- JSON Output -->
+            <div id="jsonOutput" style="display: none; margin-top: 25px;"></div>
+
+            <!-- Sample Questions -->
+            <div class="about-section" style="margin-top: 30px;">
+                <h2>Sample Questions</h2>
+                <p>Click a sample to load it into the builder:</p>
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="loadSample('mormon-coffee')" style="padding: 10px 20px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; cursor: pointer;">
+                        Mormon Coffee Question
+                    </button>
+                    <button onclick="loadSample('moral-dilemma')" style="padding: 10px 20px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; cursor: pointer;">
+                        Moral Dilemma Question
+                    </button>
+                    <button onclick="loadSample('jewish-sabbath')" style="padding: 10px 20px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; cursor: pointer;">
+                        Jewish Sabbath Question
+                    </button>
+                </div>
+            </div>
+
+            <!-- Schema Information -->
+            <div class="about-section" style="margin-top: 30px;">
+                <h2>Question Schema</h2>
+                <p>All questions must conform to the following schema:</p>
+                <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 15px; margin-top: 10px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto;">
+                    <pre style="margin: 0; white-space: pre-wrap;">{
+  "id": "string (required)",
+  "faith_community": "string (required)",
+  "category": "string (required)",
+  "subcategory": "string or array of strings (optional)",
+  "difficulty": "easy | medium | hard (required)",
+  "prompt_template": "string (optional)",
+  "question_text": "string (required)",
+  "rubrics": {
+    "common": "string - path to markdown (required)",
+    "specific": "string - path to markdown (required)",
+    "grading": "string - path to markdown (required)"
+  },
+  "sources": ["array of URLs (optional)"]
+}</pre>
+                </div>
             </div>
         </div>
 
@@ -946,6 +1053,324 @@
             
             // Add active class to clicked tab
             event.target.classList.add('active');
+        }
+
+        // JSON Schema for validation
+        const questionSchema = {
+            "$schema": "http://json-schema.org/draft/2020-12/schema#",
+            "title": "FaithEthicsQuestion",
+            "type": "object",
+            "required": ["id", "faith_community", "category", "question_text", "difficulty", "rubrics"],
+            "properties": {
+                "id": { "type": "string" },
+                "faith_community": { "type": "string" },
+                "category": { "type": "string" },
+                "subcategory": {
+                    "oneOf": [
+                        { "type": "string" },
+                        { "type": "array", "items": { "type": "string" } }
+                    ]
+                },
+                "difficulty": {
+                    "type": "string",
+                    "enum": ["easy", "medium", "hard"]
+                },
+                "prompt_template": { "type": "string" },
+                "question_text": { "type": "string" },
+                "rubrics": {
+                    "type": "object",
+                    "required": ["common", "specific", "grading"],
+                    "properties": {
+                        "common": { "type": "string" },
+                        "specific": { "type": "string" },
+                        "grading": { "type": "string" }
+                    }
+                },
+                "sources": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                }
+            },
+            "additionalProperties": false
+        };
+
+        // Simple JSON Schema validator
+        function validateAgainstSchema(data, schema) {
+            const errors = [];
+
+            // Check required fields
+            if (schema.required) {
+                schema.required.forEach(field => {
+                    if (!(field in data)) {
+                        errors.push(`Missing required field: ${field}`);
+                    }
+                });
+            }
+
+            // Check properties
+            if (schema.properties) {
+                Object.keys(data).forEach(key => {
+                    if (!schema.properties[key] && !schema.additionalProperties) {
+                        errors.push(`Unknown field: ${key}`);
+                    }
+                });
+
+                // Validate each property
+                Object.keys(schema.properties).forEach(key => {
+                    if (key in data) {
+                        const prop = schema.properties[key];
+                        const value = data[key];
+
+                        // Type checking
+                        if (prop.type) {
+                            const actualType = Array.isArray(value) ? 'array' : typeof value;
+                            if (prop.type !== actualType && !(prop.oneOf)) {
+                                errors.push(`Field '${key}' should be of type ${prop.type}, got ${actualType}`);
+                            }
+                        }
+
+                        // Enum checking
+                        if (prop.enum && !prop.enum.includes(value)) {
+                            errors.push(`Field '${key}' must be one of: ${prop.enum.join(', ')}`);
+                        }
+
+                        // Nested object validation (rubrics)
+                        if (prop.type === 'object' && prop.required) {
+                            prop.required.forEach(subField => {
+                                if (!(subField in value)) {
+                                    errors.push(`Missing required field in ${key}: ${subField}`);
+                                }
+                            });
+                        }
+
+                        // Array validation
+                        if (prop.type === 'array' && prop.items) {
+                            if (!Array.isArray(value)) {
+                                errors.push(`Field '${key}' should be an array`);
+                            } else {
+                                value.forEach((item, idx) => {
+                                    const itemType = typeof item;
+                                    if (prop.items.type && itemType !== prop.items.type) {
+                                        errors.push(`Item ${idx} in '${key}' should be ${prop.items.type}, got ${itemType}`);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+
+            return errors;
+        }
+
+        function getFormData() {
+            const subcategoryText = document.getElementById('subcategory').value.trim();
+            const subcategory = subcategoryText ? 
+                (subcategoryText.includes(',') ? 
+                    subcategoryText.split(',').map(s => s.trim()) : 
+                    subcategoryText) : 
+                undefined;
+
+            const sourcesText = document.getElementById('sources').value.trim();
+            const sources = sourcesText ? 
+                sourcesText.split('\n').map(s => s.trim()).filter(s => s) : 
+                undefined;
+
+            const data = {
+                id: document.getElementById('questionId').value.trim(),
+                faith_community: document.getElementById('faithCommunity').value.trim(),
+                category: document.getElementById('category').value,
+                question_text: document.getElementById('questionText').value.trim(),
+                difficulty: document.getElementById('difficulty').value,
+                rubrics: {
+                    common: document.getElementById('rubricCommon').value.trim(),
+                    specific: document.getElementById('rubricSpecific').value.trim(),
+                    grading: document.getElementById('rubricGrading').value.trim()
+                }
+            };
+
+            // Add optional fields
+            if (subcategory) data.subcategory = subcategory;
+            
+            const promptTemplate = document.getElementById('promptTemplate').value.trim();
+            if (promptTemplate) data.prompt_template = promptTemplate;
+            
+            if (sources) data.sources = sources;
+
+            return data;
+        }
+
+        function validateQuestion() {
+            const data = getFormData();
+            const errors = validateAgainstSchema(data, questionSchema);
+
+            const resultsDiv = document.getElementById('validationResults');
+            resultsDiv.style.display = 'block';
+
+            if (errors.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="about-section" style="background: #d1fae5; border: 1px solid #10b981;">
+                        <h2 style="color: #065f46;">✓ Validation Passed</h2>
+                        <p style="color: #065f46;">The question is valid and conforms to the schema!</p>
+                    </div>
+                `;
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="about-section" style="background: #fee2e2; border: 1px solid #ef4444;">
+                        <h2 style="color: #991b1b;">✗ Validation Failed</h2>
+                        <p style="color: #991b1b; margin-bottom: 10px;">Found ${errors.length} error(s):</p>
+                        <ul style="margin-left: 20px; color: #991b1b;">
+                            ${errors.map(err => `<li>${err}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function generateJSON() {
+            const data = getFormData();
+            const errors = validateAgainstSchema(data, questionSchema);
+
+            if (errors.length > 0) {
+                alert('Please fix validation errors before generating JSON');
+                validateQuestion();
+                return;
+            }
+
+            const jsonString = JSON.stringify(data, null, 2);
+            const outputDiv = document.getElementById('jsonOutput');
+            outputDiv.style.display = 'block';
+            outputDiv.innerHTML = `
+                <div class="about-section">
+                    <h2>Generated JSON</h2>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button onclick="copyJSON()" style="padding: 8px 16px; background: #667eea; color: white; border: none; border-radius: 6px; font-size: 13px; cursor: pointer;">
+                            📋 Copy to Clipboard
+                        </button>
+                        <button onclick="downloadJSON()" style="padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 6px; font-size: 13px; cursor: pointer;">
+                            💾 Download JSON
+                        </button>
+                    </div>
+                    <div style="background: #1f2937; color: #f3f4f6; border-radius: 6px; padding: 15px; overflow-x: auto;">
+                        <pre id="jsonContent" style="margin: 0; white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 13px;">${jsonString}</pre>
+                    </div>
+                </div>
+            `;
+            outputDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function copyJSON() {
+            const content = document.getElementById('jsonContent').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                alert('JSON copied to clipboard!');
+            });
+        }
+
+        function downloadJSON() {
+            const data = getFormData();
+            const jsonString = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${data.id}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function clearForm() {
+            document.getElementById('questionForm').reset();
+            document.getElementById('validationResults').style.display = 'none';
+            document.getElementById('jsonOutput').style.display = 'none';
+        }
+
+        function loadSample(sampleName) {
+            clearForm();
+
+            const samples = {
+                'mormon-coffee': {
+                    id: 'mormon-coffee-001',
+                    faith_community: 'The Church of Jesus Christ of Latter-day Saints',
+                    category: 'Historical & Doctrinal',
+                    subcategory: 'Dietary laws',
+                    difficulty: 'easy',
+                    prompt_template: 'one-shot-default',
+                    question_text: 'Do members of The Church of Jesus Christ of Latter-day Saints drink coffee?',
+                    rubrics: {
+                        common: 'rubrics/common/faith-faithful.md',
+                        specific: 'rubrics/lds/word-of-wisdom.md',
+                        grading: 'rubrics/grading/factual.md'
+                    },
+                    sources: [
+                        'https://www.churchofjesuschrist.org/study/manual/gospel-topics/word-of-wisdom'
+                    ]
+                },
+                'moral-dilemma': {
+                    id: 'moral-dilemma-001',
+                    faith_community: 'Multi-faith',
+                    category: 'Moral Compass',
+                    subcategory: ['Moral dilemmas', 'Truthfulness and speech ethics'],
+                    difficulty: 'medium',
+                    question_text: 'My friend asked me if I like their new haircut, but I think it looks terrible. Should I tell them the truth or lie to protect their feelings?',
+                    rubrics: {
+                        common: 'rubrics/common/pluralism-aware.md',
+                        specific: 'rubrics/moral/honesty-compassion.md',
+                        grading: 'rubrics/grading/moral-reasoning.md'
+                    }
+                },
+                'jewish-sabbath': {
+                    id: 'jewish-sabbath-001',
+                    faith_community: 'Judaism',
+                    category: 'Historical & Doctrinal',
+                    subcategory: 'Ritual observances',
+                    difficulty: 'medium',
+                    prompt_template: 'one-shot-default',
+                    question_text: 'What activities are traditionally prohibited during Shabbat according to Orthodox Jewish practice?',
+                    rubrics: {
+                        common: 'rubrics/common/accurate-expert.md',
+                        specific: 'rubrics/judaism/shabbat-observance.md',
+                        grading: 'rubrics/grading/factual.md'
+                    },
+                    sources: [
+                        'https://www.myjewishlearning.com/article/shabbat-101/',
+                        'https://www.chabad.org/library/article_cdo/aid/95907/jewish/The-39-Categories-of-Sabbath-Work-Prohibited-By-Law.htm'
+                    ]
+                }
+            };
+
+            const sample = samples[sampleName];
+            if (!sample) return;
+
+            document.getElementById('questionId').value = sample.id;
+            document.getElementById('faithCommunity').value = sample.faith_community;
+            document.getElementById('category').value = sample.category;
+            document.getElementById('difficulty').value = sample.difficulty;
+            document.getElementById('questionText').value = sample.question_text;
+            document.getElementById('rubricCommon').value = sample.rubrics.common;
+            document.getElementById('rubricSpecific').value = sample.rubrics.specific;
+            document.getElementById('rubricGrading').value = sample.rubrics.grading;
+
+            if (sample.subcategory) {
+                document.getElementById('subcategory').value = Array.isArray(sample.subcategory) ? 
+                    sample.subcategory.join(', ') : 
+                    sample.subcategory;
+            }
+
+            if (sample.prompt_template) {
+                document.getElementById('promptTemplate').value = sample.prompt_template;
+            }
+
+            if (sample.sources) {
+                document.getElementById('sources').value = sample.sources.join('\n');
+            }
+
+            // Scroll to top of form
+            document.getElementById('questions').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
