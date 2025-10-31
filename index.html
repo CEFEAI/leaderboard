@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Community-driven benchmark evaluating large language models on their ability to accurately and respectfully portray individuals of faith and their beliefs.">
+    <meta name="keywords" content="AI, ethics, faith, benchmark, LLM, leaderboard">
+    <meta name="author" content="CEFE - Consortium for Evaluating Faith and Ethics in AI">
+    <title>Faith & Ethics AI Leaderboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: #f9fafb;
+        }
+
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 0;
+        }
+
+        .top-bar .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff9d00;
+            text-decoration: none;
+        }
+
+        .logo-divider {
+            color: #d1d5db;
+            font-size: 20px;
+        }
+
+        .space-name {
+            font-size: 16px;
+            color: #6b7280;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 32px 0 0 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            position: relative;
+            bottom: -2px;
+        }
+
+        .tab:hover {
+            color: #111827;
+        }
+
+        .tab.active {
+            color: #ff9d00;
+            border-bottom-color: #ff9d00;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .filters {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .leaderboard-table {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f9fafb;
+        }
+
+        th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background: #f3f4f6;
+        }
+
+        td {
+            padding: 16px;
+            font-size: 14px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .rank {
+            font-weight: 700;
+            color: #6b7280;
+            width: 60px;
+        }
+
+        .model-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .model-org {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .score {
+            font-weight: 600;
+            text-align: center;
+            width: 100px;
+        }
+
+        .score-high {
+            color: #059669;
+        }
+
+        .score-med {
+            color: #d97706;
+        }
+
+        .score-low {
+            color: #dc2626;
+        }
+
+        .medal {
+            font-size: 18px;
+            margin-right: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-verified {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .criterion-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+
+        .criterion-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #ff9d00;
+        }
+
+        .criterion-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .criterion-card p {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .about-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .about-section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 16px;
+        }
+
+        .about-section p {
+            margin-bottom: 12px;
+            color: #374151;
+            line-height: 1.7;
+        }
+
+        .partners-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .partner-badge {
+            background: #f3f4f6;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        footer {
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 24px 0;
+            margin-top: 48px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .filter-row {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            td, th {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <a href="#" class="logo">🕊️</a>
+            <span class="logo-divider">/</span>
+            <span class="space-name">Faith & Ethics AI Leaderboard</span>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <h1>🏆 Faith & Ethics AI Leaderboard</h1>
+            <p class="subtitle">Evaluating large language models on their ability to accurately and respectfully portray individuals of faith and their beliefs.</p>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('leaderboard')">📊 Leaderboard</button>
+                <button class="tab" onclick="showTab('criteria')">✓ Evaluation Criteria</button>
+                <button class="tab" onclick="showTab('about')">ℹ️ About</button>
+                <button class="tab" onclick="showTab('submit')">📤 Submit</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Leaderboard Tab -->
+        <div id="leaderboard" class="tab-content active">
+            <div class="info-box">
+                <strong>📅 Latest Update:</strong> October 2025 • <strong>Models Evaluated:</strong> 45+ • Community-driven benchmark from diverse faith traditions
+            </div>
+
+            <div class="filters">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Category</label>
+                        <select>
+                            <option>All Categories</option>
+                            <option>Historical & Doctrinal</option>
+                            <option>Moral Compass</option>
+                            <option>Faith-Aligned Prompting</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Prompting Type</label>
+                        <select>
+                            <option>All Types</option>
+                            <option>One-shot</option>
+                            <option>Multi-turn</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Search Models</label>
+                        <input type="text" placeholder="Filter by model name...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaderboard-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="rank">Rank</th>
+                            <th>Model</th>
+                            <th class="score">Average ↓</th>
+                            <th class="score">H&D One-shot ↓</th>
+                            <th class="score">H&D Multi-turn ↓</th>
+                            <th class="score">MC One-shot ↓</th>
+                            <th class="score">MC Multi-turn ↓</th>
+                            <th class="score">MC Faith-Aligned ↓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="rank"><span class="medal">🥇</span>1</td>
+                            <td>
+                                <div class="model-name">Claude-4-Opus</div>
+                                <div class="model-org">Anthropic</div>
+                            </td>
+                            <td class="score score-high">87.3</td>
+                            <td class="score">89.2</td>
+                            <td class="score">88.7</td>
+                            <td class="score">86.5</td>
+                            <td class="score">85.1</td>
+                            <td class="score">86.9</td>
+                        </tr>
+                        <tr>
+                            <td class="rank"><span class="medal">🥈</span>2</td>
+                            <td>
+                                <div class="model-name">GPT-5</div>
+                                <div class="model-org">OpenAI</div>
+                            </td>
+                            <td class="score score-high">85.7</td>
+                            <td class="score">87.8</td>
+                            <td class="score">86.3</td>
+                            <td class="score">85.2</td>
+                            <td class="score">84.1</td>
+                            <td class="score">85.0</td>
+                        </tr>
+                        <tr>
+                            <td class="rank"><span class="medal">🥉</span>3</td>
+                            <td>
+                                <div class="model-name">Gemini-2.0-Ultra</div>
+                                <div class="model-org">Google</div>
+                            </td>
+                            <td class="score score-high">84.2</td>
+                            <td class="score">86.1</td>
+                            <td class="score">85.5</td>
+                            <td class="score">83.8</td>
+                            <td class="score">82.7</td>
+                            <td class="score">83.1</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">4</td>
+                            <td>
+                                <div class="model-name">Claude-Sonnet-4.5</div>
+                                <div class="model-org">Anthropic</div>
+                            </td>
+                            <td class="score score-high">82.8</td>
+                            <td class="score">84.5</td>
+                            <td class="score">83.9</td>
+                            <td class="score">82.1</td>
+                            <td class="score">81.3</td>
+                            <td class="score">82.4</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">5</td>
+                            <td>
+                                <div class="model-name">Llama-4-405B</div>
+                                <div class="model-org">Meta</div>
+                            </td>
+                            <td class="score score-med">79.3</td>
+                            <td class="score">81.2</td>
+                            <td class="score">80.5</td>
+                            <td class="score">78.9</td>
+                            <td class="score">77.8</td>
+                            <td class="score">78.1</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">6</td>
+                            <td>
+                                <div class="model-name">Mistral-Large-3</div>
+                                <div class="model-org">Mistral AI</div>
+                            </td>
+                            <td class="score score-med">76.5</td>
+                            <td class="score">78.9</td>
+                            <td class="score">77.8</td>
+                            <td class="score">76.2</td>
+                            <td class="score">75.1</td>
+                            <td class="score">74.5</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">7</td>
+                            <td>
+                                <div class="model-name">GPT-4o</div>
+                                <div class="model-org">OpenAI</div>
+                            </td>
+                            <td class="score score-med">75.2</td>
+                            <td class="score">77.3</td>
+                            <td class="score">76.8</td>
+                            <td class="score">74.9</td>
+                            <td class="score">73.5</td>
+                            <td class="score">73.7</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">8</td>
+                            <td>
+                                <div class="model-name">Qwen-2.5-72B</div>
+                                <div class="model-org">Alibaba</div>
+                            </td>
+                            <td class="score score-med">72.8</td>
+                            <td class="score">74.5</td>
+                            <td class="score">73.9</td>
+                            <td class="score">72.3</td>
+                            <td class="score">71.2</td>
+                            <td class="score">72.1</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">9</td>
+                            <td>
+                                <div class="model-name">Command-R+</div>
+                                <div class="model-org">Cohere</div>
+                            </td>
+                            <td class="score score-med">70.1</td>
+                            <td class="score">72.1</td>
+                            <td class="score">71.3</td>
+                            <td class="score">69.8</td>
+                            <td class="score">68.9</td>
+                            <td class="score">68.5</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">10</td>
+                            <td>
+                                <div class="model-name">Llama-3.1-70B</div>
+                                <div class="model-org">Meta</div>
+                            </td>
+                            <td class="score score-low">67.3</td>
+                            <td class="score">69.5</td>
+                            <td class="score">68.7</td>
+                            <td class="score">66.9</td>
+                            <td class="score">65.8</td>
+                            <td class="score">65.7</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Criteria Tab -->
+        <div id="criteria" class="tab-content">
+            <div class="about-section">
+                <h2>Evaluation Criteria</h2>
+                <p>Models are evaluated across seven key dimensions that measure their ability to accurately and respectfully represent faith traditions and ethical frameworks:</p>
+            </div>
+
+            <div class="criteria-grid">
+                <div class="criterion-card">
+                    <h3>✓ Faith-faithful</h3>
+                    <p>Does the AI faithfully reflect self-descriptions and authorized sources from faith traditions and ethical ideals?</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>📚 Accurate & Expert</h3>
+                    <p>Does the AI demonstrate PhD-level expertise with verifiable facts, dates, and names about faith and ethical subject matter?</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>👶 Child-appropriate</h3>
+                    <p>Does the AI handle sensitive subject matter in a way that is age-appropriate and honors parental values?</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>🌍 Pluralism-aware</h3>
+                    <p>Does the AI recognize internal diversity within faith traditions and avoid privileging one faith tradition over another?</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>⚖️ Resistant to deluge</h3>
+                    <p>Is the AI clear-eyed about what is said by the faith versus what is said about the faith, especially when online discourse volume outweighs official material?</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>❤️ Human-centered</h3>
+                    <p>Does the AI support human flourishing, moral agency, and general well-being in its responses?</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>🌐 Multilingual</h3>
+                    <p>Does the AI maintain consistent quality across world languages when evaluating faith and ethics?</p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Question Categories</h2>
+                <p><strong>Historical & Doctrinal Questions:</strong> Factual questions with objectively correct answers about doctrine, history, policy, significant persons, scripture, culture, customs, controversies, misconceptions, and more.</p>
+                <p><strong>Moral Compass Questions:</strong> Scenarios without objectively correct answers that connect to fundamentally faith-based values, evaluated both faith-neutrally and with faith-aligned system prompts.</p>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="about" class="tab-content">
+            <div class="about-section">
+                <h2>About the Consortium</h2>
+                <p>The Consortium for Evaluating Faith and Ethics in AI (CEFE) unites diverse faith traditions, ethical scholars, academics, and technologists to ensure that AI systems reflect faith, ethics, and human flourishing.</p>
+                <p>Our mission is to establish and maintain an independent, pluralistic, transparent, and collaborative mechanism to develop an AI evaluation framework that yields objective, accurate, reproducible, and publicly trusted visibility into AI performance in the domain of faith and ethics.</p>
+                <p>We recognize that ideological differences exist; our shared goal is not uniformity but respectful and accurate representation.</p>
+            </div>
+
+            <div class="about-section">
+                <h2>Participating Organizations</h2>
+                <div class="partners-list">
+                    <span class="partner-badge">🎓 Brigham Young University (Lead)</span>
+                    <span class="partner-badge">🎓 Baylor University</span>
+                    <span class="partner-badge">🎓 University of Notre Dame</span>
+                    <span class="partner-badge">🎓 Yeshiva University</span>
+                    <span class="partner-badge">🏛️ America Security Foundation</span>
+                    <span class="partner-badge">⛪ The Church of Jesus Christ of Latter-Day Saints</span>
+                    <span class="partner-badge">+ Other Faith Communities</span>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Methodology</h2>
+                <p>Questions are sourced directly from global faith communities and evaluated across multiple prompting scenarios:</p>
+                <ul style="margin-left: 20px; margin-top: 12px;">
+                    <li>One-shot queries with default system prompts</li>
+                    <li>Multi-turn conversations</li>
+                    <li>Faith-aligned system prompts (one-shot and multi-turn)</li>
+                </ul>
+                <p style="margin-top: 12px;">Automated rubrics are applied using multiple commercial LLMs as evaluators, with human verification on a subset of responses to ensure quality.</p>
+            </div>
+        </div>
+
+        <!-- Submit Tab -->
+        <div id="submit" class="tab-content">
+            <div class="about-section">
+                <h2>Submit a Model</h2>
+                <p>We welcome submissions from model developers and researchers. To submit a model for evaluation:</p>
+                <ol style="margin-left: 20px; margin-top: 12px; line-height: 2;">
+                    <li>Ensure your model is accessible via API or can be run on our evaluation infrastructure</li>
+                    <li>Provide model details including name, organization, version, and API access information</li>
+                    <li>Review our evaluation criteria and methodology</li>
+                    <li>Submit your model information through our submission form</li>
+                </ol>
+                <p style="margin-top: 16px;"><strong>Note:</strong> All submissions undergo the same standardized evaluation process. Results are typically available within 2-3 weeks of submission.</p>
+            </div>
+
+            <div class="about-section">
+                <h2>Contact</h2>
+                <p>For questions about the benchmark or to participate as a faith community contributor:</p>
+                <p style="margin-top: 12px;"><strong>Email:</strong> cefe@byu.edu</p>
+                <p><strong>Website:</strong> https://cefe.byu.edu</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 CEFE - Consortium for Evaluating Faith and Ethics in AI</p>
+        <p style="margin-top: 8px;">Led by Brigham Young University in collaboration with faith communities worldwide</p>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
