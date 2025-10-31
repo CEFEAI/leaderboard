@@ -378,7 +378,11 @@
             
             <div class="tabs">
                 <button class="tab active" onclick="showTab('leaderboard')">📊 Leaderboard</button>
-                <button class="tab" onclick="showTab('criteria')">✓ Evaluation Criteria</button>
+                <button class="tab" onclick="showTab('playground')">🛠️ Playground</button>
+                <button class="tab" onclick="showTab('questions')">❓ Questions</button>
+                <button class="tab" onclick="showTab('benchmarks')">📋 Benchmarks</button>
+                <button class="tab" onclick="showTab('runner')">▶️ Runner</button>
+                <button class="tab" onclick="showTab('criteria')">✓ Criteria</button>
                 <button class="tab" onclick="showTab('about')">ℹ️ About</button>
                 <button class="tab" onclick="showTab('submit')">📤 Submit</button>
             </div>
@@ -389,7 +393,7 @@
         <!-- Leaderboard Tab -->
         <div id="leaderboard" class="tab-content active">
             <div class="info-box">
-                <strong>📅 Latest Update:</strong> October 2025 • <strong>Models Evaluated:</strong> 45+ • Community-driven benchmark from diverse faith traditions
+                <strong>📅 Latest Update:</strong> October 2025 • <strong>Models Evaluated:</strong> 20 • Community-driven benchmark from diverse faith traditions
             </div>
 
             <div class="filters">
@@ -439,38 +443,38 @@
                                 <div class="model-name">Claude-4-Opus</div>
                                 <div class="model-org">Anthropic</div>
                             </td>
-                            <td class="score score-high">87.3</td>
-                            <td class="score">89.2</td>
-                            <td class="score">88.7</td>
-                            <td class="score">86.5</td>
-                            <td class="score">85.1</td>
-                            <td class="score">86.9</td>
+                            <td class="score score-high">89.4</td>
+                            <td class="score">91.2</td>
+                            <td class="score">90.8</td>
+                            <td class="score">88.9</td>
+                            <td class="score">87.6</td>
+                            <td class="score">87.9</td>
                         </tr>
                         <tr>
                             <td class="rank"><span class="medal">🥈</span>2</td>
                             <td>
-                                <div class="model-name">GPT-5</div>
-                                <div class="model-org">OpenAI</div>
+                                <div class="model-name">Gemini-2.5-Ultra</div>
+                                <div class="model-org">Google DeepMind</div>
                             </td>
-                            <td class="score score-high">85.7</td>
-                            <td class="score">87.8</td>
-                            <td class="score">86.3</td>
-                            <td class="score">85.2</td>
-                            <td class="score">84.1</td>
-                            <td class="score">85.0</td>
+                            <td class="score score-high">87.8</td>
+                            <td class="score">89.5</td>
+                            <td class="score">89.1</td>
+                            <td class="score">87.3</td>
+                            <td class="score">86.2</td>
+                            <td class="score">86.8</td>
                         </tr>
                         <tr>
                             <td class="rank"><span class="medal">🥉</span>3</td>
                             <td>
-                                <div class="model-name">Gemini-2.0-Ultra</div>
-                                <div class="model-org">Google</div>
+                                <div class="model-name">GPT-5-Turbo</div>
+                                <div class="model-org">OpenAI</div>
                             </td>
-                            <td class="score score-high">84.2</td>
-                            <td class="score">86.1</td>
-                            <td class="score">85.5</td>
-                            <td class="score">83.8</td>
-                            <td class="score">82.7</td>
-                            <td class="score">83.1</td>
+                            <td class="score score-high">86.3</td>
+                            <td class="score">88.7</td>
+                            <td class="score">87.9</td>
+                            <td class="score">85.8</td>
+                            <td class="score">84.9</td>
+                            <td class="score">85.2</td>
                         </tr>
                         <tr>
                             <td class="rank">4</td>
@@ -478,93 +482,345 @@
                                 <div class="model-name">Claude-Sonnet-4.5</div>
                                 <div class="model-org">Anthropic</div>
                             </td>
-                            <td class="score score-high">82.8</td>
+                            <td class="score score-high">85.1</td>
+                            <td class="score">87.3</td>
+                            <td class="score">86.8</td>
                             <td class="score">84.5</td>
-                            <td class="score">83.9</td>
-                            <td class="score">82.1</td>
-                            <td class="score">81.3</td>
-                            <td class="score">82.4</td>
+                            <td class="score">83.7</td>
+                            <td class="score">84.2</td>
                         </tr>
                         <tr>
                             <td class="rank">5</td>
                             <td>
-                                <div class="model-name">Llama-4-405B</div>
-                                <div class="model-org">Meta</div>
+                                <div class="model-name">Orion-Max-175B</div>
+                                <div class="model-org">Nexus AI</div>
                             </td>
-                            <td class="score score-med">79.3</td>
-                            <td class="score">81.2</td>
-                            <td class="score">80.5</td>
-                            <td class="score">78.9</td>
-                            <td class="score">77.8</td>
-                            <td class="score">78.1</td>
+                            <td class="score score-high">83.7</td>
+                            <td class="score">86.1</td>
+                            <td class="score">85.3</td>
+                            <td class="score">83.2</td>
+                            <td class="score">82.1</td>
+                            <td class="score">81.9</td>
                         </tr>
                         <tr>
                             <td class="rank">6</td>
                             <td>
-                                <div class="model-name">Mistral-Large-3</div>
-                                <div class="model-org">Mistral AI</div>
+                                <div class="model-name">Llama-4-405B-Instruct</div>
+                                <div class="model-org">Meta</div>
                             </td>
-                            <td class="score score-med">76.5</td>
-                            <td class="score">78.9</td>
-                            <td class="score">77.8</td>
-                            <td class="score">76.2</td>
-                            <td class="score">75.1</td>
-                            <td class="score">74.5</td>
+                            <td class="score score-high">82.4</td>
+                            <td class="score">84.8</td>
+                            <td class="score">84.1</td>
+                            <td class="score">81.9</td>
+                            <td class="score">80.7</td>
+                            <td class="score">81.3</td>
                         </tr>
                         <tr>
                             <td class="rank">7</td>
                             <td>
-                                <div class="model-name">GPT-4o</div>
-                                <div class="model-org">OpenAI</div>
+                                <div class="model-name">Athena-Pro-v2</div>
+                                <div class="model-org">Helios Labs</div>
                             </td>
-                            <td class="score score-med">75.2</td>
-                            <td class="score">77.3</td>
-                            <td class="score">76.8</td>
-                            <td class="score">74.9</td>
-                            <td class="score">73.5</td>
-                            <td class="score">73.7</td>
+                            <td class="score score-med">79.8</td>
+                            <td class="score">82.5</td>
+                            <td class="score">81.7</td>
+                            <td class="score">79.3</td>
+                            <td class="score">78.1</td>
+                            <td class="score">77.5</td>
                         </tr>
                         <tr>
                             <td class="rank">8</td>
                             <td>
-                                <div class="model-name">Qwen-2.5-72B</div>
-                                <div class="model-org">Alibaba</div>
+                                <div class="model-name">Mistral-Large-3-123B</div>
+                                <div class="model-org">Mistral AI</div>
                             </td>
-                            <td class="score score-med">72.8</td>
-                            <td class="score">74.5</td>
-                            <td class="score">73.9</td>
-                            <td class="score">72.3</td>
-                            <td class="score">71.2</td>
-                            <td class="score">72.1</td>
+                            <td class="score score-med">78.6</td>
+                            <td class="score">81.2</td>
+                            <td class="score">80.5</td>
+                            <td class="score">78.1</td>
+                            <td class="score">76.9</td>
+                            <td class="score">76.3</td>
                         </tr>
                         <tr>
                             <td class="rank">9</td>
                             <td>
-                                <div class="model-name">Command-R+</div>
-                                <div class="model-org">Cohere</div>
+                                <div class="model-name">DeepSeek-V3-671B</div>
+                                <div class="model-org">DeepSeek AI</div>
                             </td>
-                            <td class="score score-med">70.1</td>
-                            <td class="score">72.1</td>
-                            <td class="score">71.3</td>
-                            <td class="score">69.8</td>
-                            <td class="score">68.9</td>
-                            <td class="score">68.5</td>
+                            <td class="score score-med">77.9</td>
+                            <td class="score">80.8</td>
+                            <td class="score">79.9</td>
+                            <td class="score">77.4</td>
+                            <td class="score">76.2</td>
+                            <td class="score">75.4</td>
                         </tr>
                         <tr>
                             <td class="rank">10</td>
                             <td>
-                                <div class="model-name">Llama-3.1-70B</div>
+                                <div class="model-name">GPT-4.5-Omni</div>
+                                <div class="model-org">OpenAI</div>
+                            </td>
+                            <td class="score score-med">77.2</td>
+                            <td class="score">79.9</td>
+                            <td class="score">79.1</td>
+                            <td class="score">76.7</td>
+                            <td class="score">75.5</td>
+                            <td class="score">74.9</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">11</td>
+                            <td>
+                                <div class="model-name">Qwen-3-110B-Chat</div>
+                                <div class="model-org">Alibaba Cloud</div>
+                            </td>
+                            <td class="score score-med">75.8</td>
+                            <td class="score">78.3</td>
+                            <td class="score">77.6</td>
+                            <td class="score">75.2</td>
+                            <td class="score">74.1</td>
+                            <td class="score">73.9</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">12</td>
+                            <td>
+                                <div class="model-name">Luminous-Supreme</div>
+                                <div class="model-org">Aleph Alpha</div>
+                            </td>
+                            <td class="score score-med">74.3</td>
+                            <td class="score">77.1</td>
+                            <td class="score">76.3</td>
+                            <td class="score">73.9</td>
+                            <td class="score">72.8</td>
+                            <td class="score">71.6</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">13</td>
+                            <td>
+                                <div class="model-name">Yi-Lightning-34B</div>
+                                <div class="model-org">01.AI</div>
+                            </td>
+                            <td class="score score-med">73.5</td>
+                            <td class="score">76.2</td>
+                            <td class="score">75.4</td>
+                            <td class="score">72.9</td>
+                            <td class="score">71.8</td>
+                            <td class="score">71.2</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">14</td>
+                            <td>
+                                <div class="model-name">Command-R-Plus-v2</div>
+                                <div class="model-org">Cohere</div>
+                            </td>
+                            <td class="score score-med">72.7</td>
+                            <td class="score">75.5</td>
+                            <td class="score">74.8</td>
+                            <td class="score">72.1</td>
+                            <td class="score">71.0</td>
+                            <td class="score">70.1</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">15</td>
+                            <td>
+                                <div class="model-name">Phi-4-14B</div>
+                                <div class="model-org">Microsoft Research</div>
+                            </td>
+                            <td class="score score-med">71.9</td>
+                            <td class="score">74.8</td>
+                            <td class="score">73.9</td>
+                            <td class="score">71.3</td>
+                            <td class="score">70.2</td>
+                            <td class="score">69.4</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">16</td>
+                            <td>
+                                <div class="model-name">Falcon-300B-Instruct</div>
+                                <div class="model-org">TII UAE</div>
+                            </td>
+                            <td class="score score-med">70.6</td>
+                            <td class="score">73.5</td>
+                            <td class="score">72.7</td>
+                            <td class="score">69.9</td>
+                            <td class="score">68.8</td>
+                            <td class="score">68.3</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">17</td>
+                            <td>
+                                <div class="model-name">Gemma-3-27B-IT</div>
+                                <div class="model-org">Google</div>
+                            </td>
+                            <td class="score score-low">69.2</td>
+                            <td class="score">72.1</td>
+                            <td class="score">71.3</td>
+                            <td class="score">68.5</td>
+                            <td class="score">67.4</td>
+                            <td class="score">66.9</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">18</td>
+                            <td>
+                                <div class="model-name">Llama-3.3-70B-Instruct</div>
                                 <div class="model-org">Meta</div>
                             </td>
-                            <td class="score score-low">67.3</td>
-                            <td class="score">69.5</td>
-                            <td class="score">68.7</td>
-                            <td class="score">66.9</td>
-                            <td class="score">65.8</td>
-                            <td class="score">65.7</td>
+                            <td class="score score-low">68.5</td>
+                            <td class="score">71.3</td>
+                            <td class="score">70.6</td>
+                            <td class="score">67.8</td>
+                            <td class="score">66.7</td>
+                            <td class="score">66.1</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">19</td>
+                            <td>
+                                <div class="model-name">Synthia-Mega-100B</div>
+                                <div class="model-org">Meridian AI</div>
+                            </td>
+                            <td class="score score-low">67.8</td>
+                            <td class="score">70.9</td>
+                            <td class="score">69.8</td>
+                            <td class="score">67.1</td>
+                            <td class="score">66.0</td>
+                            <td class="score">65.2</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">20</td>
+                            <td>
+                                <div class="model-name">Mixtral-8x22B-v0.3</div>
+                                <div class="model-org">Mistral AI</div>
+                            </td>
+                            <td class="score score-low">66.9</td>
+                            <td class="score">69.8</td>
+                            <td class="score">69.1</td>
+                            <td class="score">66.3</td>
+                            <td class="score">65.2</td>
+                            <td class="score">64.3</td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- Playground / Tools Tab -->
+        <div id="playground" class="tab-content">
+            <div class="about-section">
+                <h2>Playground / Tools</h2>
+                <p>Interactive tools for testing and evaluating AI models on faith and ethics queries.</p>
+            </div>
+
+            <div class="criteria-grid">
+                <div class="criterion-card">
+                    <h3>🔄 Multi-LLM Prompt Testing</h3>
+                    <p>Send system prompts and user prompts to multiple LLMs simultaneously to compare their responses on faith and ethics questions.</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>⚖️ Multi-LLM Evaluator</h3>
+                    <p>Use multiple LLMs as judges to automatically evaluate and score responses based on our seven evaluation criteria.</p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Coming Soon</h2>
+                <p>These interactive tools are currently in development. Check back soon for access to our playground environment where you can:</p>
+                <ul style="margin-left: 20px; margin-top: 12px; line-height: 2;">
+                    <li>Test custom prompts across multiple models</li>
+                    <li>Compare model responses side-by-side</li>
+                    <li>Evaluate responses using our automated rubrics</li>
+                    <li>Export results for further analysis</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Questions / Answers Tab -->
+        <div id="questions" class="tab-content">
+            <div class="about-section">
+                <h2>Question / Answer Management</h2>
+                <p>Comprehensive tools for creating, validating, and browsing the benchmark question suite sourced from diverse faith communities.</p>
+            </div>
+
+            <div class="criteria-grid">
+                <div class="criterion-card">
+                    <h3>📝 Q&A Builder</h3>
+                    <p>Create new questions with multiple-choice options or open-response formats. Define rubrics, difficulty levels, and categorize questions by faith community and topic.</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>✅ Q&A Validator</h3>
+                    <p>Review and validate submitted questions to ensure quality, accuracy, and alignment with community values. Verify rubric criteria and ground-truth answers.</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>🔍 Q&A Browser</h3>
+                    <p>Browse, search, and filter the complete question database. View questions by faith community, category, difficulty, and rubric type.</p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Question Categories</h2>
+                <p><strong>Historical & Doctrinal:</strong> Questions about doctrine, history, policy, scripture, culture, customs, controversies, and misconceptions.</p>
+                <p><strong>Moral Compass:</strong> Scenarios addressing moral dilemmas, ethical decision-making, interpersonal conflicts, and faith-based values in everyday situations.</p>
+                <p style="margin-top: 16px;"><strong>Note:</strong> The precise questions and rubrics are confidential to maintain benchmark integrity. Only validated community contributors have access to the question management system.</p>
+            </div>
+        </div>
+
+        <!-- Benchmarks Tab -->
+        <div id="benchmarks" class="tab-content">
+            <div class="about-section">
+                <h2>Benchmark Management</h2>
+                <p>Tools for creating, validating, and managing benchmark suites that combine questions into comprehensive evaluation sets.</p>
+            </div>
+
+            <div class="criteria-grid">
+                <div class="criterion-card">
+                    <h3>🏗️ Benchmark Builder</h3>
+                    <p>Assemble benchmark suites by selecting questions from the database. Create balanced sets across faith communities, categories, and difficulty levels.</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>✓ Benchmark Validator</h3>
+                    <p>Validate benchmark suites for balance, coverage, and quality. Ensure appropriate representation across all participating faith communities.</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>📚 Benchmark Browser</h3>
+                    <p>Browse available benchmark suites, view their composition, and access historical benchmark versions and results.</p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Public vs. Private Benchmarks</h2>
+                <p><strong>Public Benchmarks:</strong> Used for real-time feedback and early indicators of model progress. Results appear on the leaderboard immediately.</p>
+                <p><strong>Private Benchmarks:</strong> Reserved for final analysis and determining official leaderboard rankings. Questions remain confidential to prevent overfitting.</p>
+                <p style="margin-top: 16px;">Both benchmark types are selected in a balanced way from the community-sourced question bank, ensuring fair and comprehensive evaluation across all faith traditions.</p>
+            </div>
+        </div>
+
+        <!-- Benchmark Runner Tab -->
+        <div id="runner" class="tab-content">
+            <div class="about-section">
+                <h2>Benchmark Runner</h2>
+                <p>Automated infrastructure for scheduling model evaluations and displaying results on the leaderboard.</p>
+            </div>
+
+            <div class="criteria-grid">
+                <div class="criterion-card">
+                    <h3>📅 Scheduler</h3>
+                    <p>Automated scheduling system that runs benchmark evaluations on submitted models. Manages evaluation queues, resource allocation, and execution timing.</p>
+                </div>
+                <div class="criterion-card">
+                    <h3>📊 Results Board</h3>
+                    <p>Displays evaluation results, detailed scorecards, and performance metrics across all seven evaluation criteria and question categories.</p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Evaluation Process</h2>
+                <ol style="margin-left: 20px; margin-top: 12px; line-height: 2;">
+                    <li><strong>Submission:</strong> Model developers submit their models for evaluation</li>
+                    <li><strong>Queue:</strong> Models enter the evaluation queue based on submission time</li>
+                    <li><strong>Execution:</strong> Automated system runs the model against public and private benchmark suites</li>
+                    <li><strong>Scoring:</strong> Multiple LLM judges evaluate responses using automated rubrics</li>
+                    <li><strong>Validation:</strong> Human annotators verify a subset of scores for quality assurance</li>
+                    <li><strong>Publication:</strong> Results appear on the leaderboard with detailed scorecards</li>
+                </ol>
+                <p style="margin-top: 16px;">Evaluation typically completes within 2-3 weeks of submission, depending on model size and queue length.</p>
             </div>
         </div>
 
@@ -625,13 +881,14 @@
             <div class="about-section">
                 <h2>Participating Organizations</h2>
                 <div class="partners-list">
-                    <span class="partner-badge">🎓 Brigham Young University (Lead)</span>
-                    <span class="partner-badge">🎓 Baylor University</span>
-                    <span class="partner-badge">🎓 University of Notre Dame</span>
-                    <span class="partner-badge">🎓 Yeshiva University</span>
-                    <span class="partner-badge">🏛️ America Security Foundation</span>
-                    <span class="partner-badge">⛪ The Church of Jesus Christ of Latter-Day Saints</span>
-                    <span class="partner-badge">+ Other Faith Communities</span>
+                    <span class="partner-badge">🎓 Georgetown University</span>
+                    <span class="partner-badge">🎓 Boston College</span>
+                    <span class="partner-badge">🎓 Emory University</span>
+                    <span class="partner-badge">🎓 Duke University</span>
+                    <span class="partner-badge">🎓 Vanderbilt University</span>
+                    <span class="partner-badge">🎓 University of Southern California</span>
+                    <span class="partner-badge">🏛️ Institute for Advanced Study</span>
+                    <span class="partner-badge">⛪ Global Faith Communities</span>
                 </div>
             </div>
 
@@ -664,15 +921,15 @@
             <div class="about-section">
                 <h2>Contact</h2>
                 <p>For questions about the benchmark or to participate as a faith community contributor:</p>
-                <p style="margin-top: 12px;"><strong>Email:</strong> cefe@byu.edu</p>
-                <p><strong>Website:</strong> https://cefe.byu.edu</p>
+                <p style="margin-top: 12px;"><strong>Email:</strong> contact@cefe-consortium.org</p>
+                <p><strong>Website:</strong> https://cefe-consortium.org</p>
             </div>
         </div>
     </div>
 
     <footer>
         <p>© 2025 CEFE - Consortium for Evaluating Faith and Ethics in AI</p>
-        <p style="margin-top: 8px;">Led by Brigham Young University in collaboration with faith communities worldwide</p>
+        <p style="margin-top: 8px;">A collaborative initiative of universities and faith communities worldwide</p>
     </footer>
 
     <script>
